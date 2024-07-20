@@ -1,0 +1,35 @@
+{
+    "format_version": 2,
+    "header": {
+        "description": "User Data Async",
+        "name": "Async User Data",
+        "uuid":"f2e7d5f2-9b73-4f5c-99e8-13f4080cd520",
+        "version": [1, 0, 0],
+        "min_engine_version": [1, 19, 0]
+    },
+    "modules":
+        [
+            {
+                "type": "data",
+                "uuid": "f2e7d5f2-9b73-4f5c-99e8-13f4080cd521",
+                "version": [ 0, 0, 1 ]
+            },
+            {
+                "type": "script",
+                "uuid": "f2e7d5f2-9b73-4f5c-99e8-13f4080cd522",
+                "version": [ 0, 0, 1 ],
+                "language": "javascript",
+                "entry": "scripts/Main.js"
+            }
+        ],
+    "dependencies": [
+        {
+            "module_name": "@minecraft/server",
+            "version": "1.14.0-beta"
+        },
+        {
+            "module_name": "@minecraft/server-net",
+            "version": "1.0.0-beta"
+        }
+   ]
+}
