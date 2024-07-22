@@ -36,19 +36,19 @@ def get_db():
 
 app = FastAPI()
 
-class UserDataMoedl(BaseModel):
+class UserDataModel(BaseModel):
     user_uuid: str
     user_data: str
     
-@app.post("/user_data", response_model=UserDataMoedl)
-async def create_user_data(user_data: UserDataMoedl, db: Session = Depends(get_db)):
+@app.post("/user_data", response_model=UserDataModel)
+async def create_user_data(user_data: UserDataModel, db: Session = Depends(get_db)):
     print(user_data)
     db_user_data = UserData(user_uuid=user_data.user_uuid, user_data=user_data.user_data)
     db.add(db_user_data)
     db.commit()
     return db_user_data
 
-@app.get("/user_data/{user_uuid}", response_model=UserDataMoedl)
+@app.get("/user_data/{user_uuid}", response_model=UserDataModel)
 async def get_user_data(user_uuid:str, db: Session = Depends(DBSession)):
     
     result = db.execute(select(UserData).where(UserData.user_uuid == user_uuid))
