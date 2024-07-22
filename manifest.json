@@ -12,12 +12,12 @@
             {
                 "type": "data",
                 "uuid": "f2e7d5f2-9b73-4f5c-99e8-13f4080cd521",
-                "version": [ 0, 0, 1 ]
+                "version": [1, 0, 0]
             },
             {
                 "type": "script",
                 "uuid": "f2e7d5f2-9b73-4f5c-99e8-13f4080cd522",
-                "version": [ 0, 0, 1 ],
+                "version": [1, 0, 0],
                 "language": "javascript",
                 "entry": "scripts/Main.js"
             }

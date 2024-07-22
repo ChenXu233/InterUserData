@@ -1,0 +1,22 @@
+[project]
+name = "InterUserData-1"
+version = "0.1.0"
+description = "Default template for PDM package"
+authors = [
+    {name = "ChenXu233", email = "Woyerpa@outlook.com"},
+]
+dependencies = [
+    "fastapi>=0.111.1",
+    "sqlalchemy>=2.0.31",
+    "uvicorn[standard]>=0.30.3",
+]
+requires-python = ">=3.12"
+readme = "README.md"
+license = {text = "MIT"}
+
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.pdm]
+distribution = true
