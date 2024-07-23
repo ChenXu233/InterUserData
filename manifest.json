@@ -1,8 +1,8 @@
 {
     "format_version": 2,
     "header": {
-        "description": "User Data Async",
-        "name": "Async User Data",
+        "description": "Player Data Async",
+        "name": "Async Player Data",
         "uuid":"f2e7d5f2-9b73-4f5c-99e8-13f4080cd520",
         "version": [1, 0, 0],
         "min_engine_version": [1, 19, 0]

@@ -9,7 +9,7 @@ async function add_data(db_url:string,body:any) {
     req.method = HttpRequestMethod.Post;
     req.headers = [
         new HttpHeader('Content-Type', 'application/json'),
-        new HttpHeader('auth', 'my-auth-token'),
+        new HttpHeader('token', 'windNB!!!'),
     ];
 
     return await http.request(req);
@@ -23,8 +23,11 @@ async function get_data(db_url:string, body:any){
     req.method = HttpRequestMethod.Post;
     req.headers = [
         new HttpHeader('Content-Type', 'application/json'),
-        new HttpHeader('auth', 'my-auth-token'),
+        new HttpHeader('token', 'windNB!!!'),
     ];
 
     return await http.request(req);
 }
+
+Minecraft.world.afterEvents.playerJoin.subscribe(
+    player => add_data('https://api.windnb.top:5173/add_player', {player_uuid: player.playerId.toString(),}))

@@ -1,25 +1,26 @@
-from fastapi import FastAPI, HTTPException, Depends, status
+from fastapi import FastAPI, HTTPException, Depends, status, Request, Header
+from typing import Annotated
 from pydantic import BaseModel
 from sqlalchemy import create_engine, Column, Integer, String, select
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker, Session
+# from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker, Session, declarative_base
 import os.path
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 Base = declarative_base()
 
-class UserData(Base):
-    __tablename__ = 'user_data'
+class PlayerData(Base):
+    __tablename__ = 'Player_data'
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    user_uuid = Column(String, unique=True)
-    user_data = Column(String)
+    player_uuid = Column(String, unique=True)
+    player_data = Column(String)
 
-class UserPosition(Base):
-    __tablename__ = 'user_position'
+class PlayerPosition(Base):
+    __tablename__ = 'Player_position'
     id = Column(Integer, primary_key=True, index=True)
     server_uuid = Column(String, unique=True)
-    user_position = Column(String)
+    player_position = Column(String)
 
 db_path = os.path.join(BASE_DIR, "test.db")
 
@@ -36,24 +37,29 @@ def get_db():
 
 app = FastAPI()
 
-class UserDataModel(BaseModel):
-    user_uuid: str
-    user_data: str
+class PlayerDataModel(BaseModel):
+    player_uuid: str
+    player_data: str
     
-@app.post("/user_data", response_model=UserDataModel)
-async def create_user_data(user_data: UserDataModel, db: Session = Depends(get_db)):
-    print(user_data)
-    db_user_data = UserData(user_uuid=user_data.user_uuid, user_data=user_data.user_data)
-    db.add(db_user_data)
+@app.post("/Player_data", response_model=PlayerDataModel)
+async def update_Player_data(player_data: PlayerDataModel, token: Annotated[str | None, Header()] = None, db: Session = Depends(get_db)):
+    print(player_data)
+    print(token)
+    if (db_Player_data := db.query(PlayerData).filter(PlayerData.player_uuid == player_data.player_uuid)) and db.query(PlayerData).filter(PlayerData.player_uuid == player_data.player_uuid).all():
+        db_Player_data.update({PlayerData.player_data:player_data.player_data})
+    else:
+        db_Player_data = PlayerData(player_uuid=player_data.player_uuid, Player_data=player_data.player_data)
+        db.add(db_Player_data)
     db.commit()
-    return db_user_data
+    return db.query(PlayerData).filter(PlayerData.player_uuid == player_data.player_uuid).all()[0]
 
-@app.get("/user_data/{user_uuid}", response_model=UserDataModel)
-async def get_user_data(user_uuid:str, db: Session = Depends(DBSession)):
+@app.get("/Player_data/{player_uuid}", response_model=PlayerDataModel)
+async def get_Player_data(player_uuid:str, db: Session = Depends(get_db)):
     
-    result = db.execute(select(UserData).where(UserData.user_uuid == user_uuid))
-    return result.first()
+    result = db.query(PlayerData).filter(PlayerData.player_uuid == player_uuid)
+    return result.all()[0]
 
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
+    
