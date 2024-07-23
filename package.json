@@ -11,7 +11,7 @@
         "object-sizeof": "^2.6.1",
         "typescript": "^4.8.4"
     },
-    "name": "wp",
+    "name": "player_data_async",
     "version": "1.0.0",
     "keywords": [],
     "author": "",

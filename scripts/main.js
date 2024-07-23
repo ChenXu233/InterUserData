@@ -40,6 +40,7 @@ function add_data(db_url, body) {
         req.body = body;
         req.method = server_net_1.HttpRequestMethod.Post;
         req.headers = [
+            new server_net_1.HttpHeader('accept', 'application/json'),
             new server_net_1.HttpHeader('Content-Type', 'application/json'),
             new server_net_1.HttpHeader('token', 'windNB!!!'),
         ];
@@ -52,10 +53,23 @@ function get_data(db_url, body) {
         req.body = body;
         req.method = server_net_1.HttpRequestMethod.Post;
         req.headers = [
+            new server_net_1.HttpHeader('accept', 'application/json'),
             new server_net_1.HttpHeader('Content-Type', 'application/json'),
             new server_net_1.HttpHeader('token', 'windNB!!!'),
         ];
         return yield server_net_1.http.request(req);
     });
 }
-Minecraft.world.afterEvents.playerJoin.subscribe(player => add_data('https://api.windnb.top:5173/add_player', { player_uuid: player.playerId.toString(), }));
+function get_player_by_id_and_name(id, name) {
+    let minecraft_players = Minecraft.world.getAllPlayers();
+    let player = minecraft_players.find(p => p.name == name && p.id == id);
+    if (!player)
+        throw new Error('Player ${player.name} not found');
+    return player;
+}
+Minecraft.world.afterEvents.playerJoin.subscribe(player => {
+    add_data('localhost:8080/player_data', { player_uuid: player.playerId.toString(), });
+    let minecraft_player = get_player_by_id_and_name(player.playerId.toString(), player.playerName.toString());
+    let data = minecraft_player.getComponent("minecraft:inventory");
+    console.info(data);
+});
