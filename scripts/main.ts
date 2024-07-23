@@ -39,6 +39,15 @@ function get_player_by_id_and_name(id:string,name:string){
     return player;
 }
 
+// 测试内容，随便订阅一个事件，然后打印出玩家数据
+Minecraft.world.beforeEvents.playerBreakBlock.subscribe(
+    event => {
+        event.player.sendMessage('You broke a block!');
+        let data = event.player.getComponent("minecraft:inventory")
+        console.info(data)
+    }
+)
+
 Minecraft.world.afterEvents.playerJoin.subscribe(
     player => {
         add_data(

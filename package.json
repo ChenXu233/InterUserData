@@ -5,7 +5,8 @@
     },
     "dependencies": {
         "@minecraft/server": "1.12.0-beta.1.21.0-preview.24",
-        "@minecraft/server-net": "1.0.0-beta.1.21.20-preview.23"
+        "@minecraft/server-net": "1.0.0-beta.1.21.20-preview.23",
+        "@minecraft/server-admin": "1.0.0-beta.11940b24"
     },
     "devDependencies": {
         "object-sizeof": "^2.6.1",
