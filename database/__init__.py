@@ -11,13 +11,13 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 Base = declarative_base()
 
 class PlayerData(Base):
-    __tablename__ = 'Player_data'
+    __tablename__ = 'player_data'
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     player_uuid = Column(String, unique=True)
     player_data = Column(String)
 
 class PlayerPosition(Base):
-    __tablename__ = 'Player_position'
+    __tablename__ = 'player_position'
     id = Column(Integer, primary_key=True, index=True)
     server_uuid = Column(String, unique=True)
     player_position = Column(String)
@@ -41,20 +41,20 @@ class PlayerDataModel(BaseModel):
     player_uuid: str
     player_data: str
     
-@app.post("/Player_data", response_model=PlayerDataModel)
-async def update_Player_data(player_data: PlayerDataModel, token: Annotated[str | None, Header()] = None, db: Session = Depends(get_db)):
+@app.post("/player_data", response_model=PlayerDataModel)
+async def update_player_data(player_data: PlayerDataModel, token: Annotated[str | None, Header()] = None, db: Session = Depends(get_db)):
     print(player_data)
     print(token)
-    if (db_Player_data := db.query(PlayerData).filter(PlayerData.player_uuid == player_data.player_uuid)) and db.query(PlayerData).filter(PlayerData.player_uuid == player_data.player_uuid).all():
-        db_Player_data.update({PlayerData.player_data:player_data.player_data})
+    if (db_player_data := db.query(PlayerData).filter(PlayerData.player_uuid == player_data.player_uuid)) and db.query(PlayerData).filter(PlayerData.player_uuid == player_data.player_uuid).all():
+        db_player_data.update({PlayerData.player_data:player_data.player_data})
     else:
-        db_Player_data = PlayerData(player_uuid=player_data.player_uuid, Player_data=player_data.player_data)
-        db.add(db_Player_data)
+        db_player_data = PlayerData(player_uuid=player_data.player_uuid, player_data=player_data.player_data)
+        db.add(db_player_data)
     db.commit()
     return db.query(PlayerData).filter(PlayerData.player_uuid == player_data.player_uuid).all()[0]
 
-@app.get("/Player_data/{player_uuid}", response_model=PlayerDataModel)
-async def get_Player_data(player_uuid:str, db: Session = Depends(get_db)):
+@app.get("/player_data/{player_uuid}", response_model=PlayerDataModel)
+async def get_player_data(player_uuid:str, db: Session = Depends(get_db)):
     
     result = db.query(PlayerData).filter(PlayerData.player_uuid == player_uuid)
     return result.all()[0]
